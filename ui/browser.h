@@ -10,11 +10,13 @@
 #define HE_COLORSET_NORMAL	52
 #define HE_COLORSET_SELECTED	53
 #define HE_COLORSET_CODE	54
+#define HE_COLORSET_ADDR	55
 
 struct ui_browser {
 	u64	      index, top_idx;
 	void	      *top, *entries;
 	u16	      y, x, width, height;
+	int	      current_color;
 	void	      *priv;
 	const char    *title;
 	char	      *helpline;
@@ -27,7 +29,7 @@ struct ui_browser {
 	bool	      use_navkeypressed;
 };
 
-void ui_browser__set_color(struct ui_browser *self, int color);
+int  ui_browser__set_color(struct ui_browser *browser, int color);
 void ui_browser__set_percent_color(struct ui_browser *self,
 				   double percent, bool current);
 bool ui_browser__is_current_entry(struct ui_browser *self, unsigned row);
@@ -49,6 +51,8 @@ int ui_browser__warning(struct ui_browser *browser, int timeout,
 			const char *format, ...);
 int ui_browser__help_window(struct ui_browser *browser, const char *text);
 bool ui_browser__dialog_yesno(struct ui_browser *browser, const char *text);
+int ui_browser__input_window(const char *title, const char *text, char *input,
+			     const char *exit_msg, int delay_sec);
 
 void ui_browser__argv_seek(struct ui_browser *browser, off_t offset, int whence);
 unsigned int ui_browser__argv_refresh(struct ui_browser *browser);
